@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Kofein Desserts</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body { font-family: Arial; padding: 15px; }
+    .product { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; }
+    button { background: black; color: white; padding: 10px; border: none; }
+  </style>
+</head>
+<body>
+
+<h2>🍰 Наші десерти</h2>
+
+<div class="product">
+  <h3>Макарон</h3>
+  <p>Ціна: 80 грн</p>
+  <button onclick="addToCart('Макарон', 80)">Додати</button>
+</div>
+
+<div class="product">
+  <h3>Чізкейк</h3>
+  <p>Ціна: 120 грн</p>
+  <button onclick="addToCart('Чізкейк', 120)">Додати</button>
+</div>
+
+<h3>🛒 Кошик:</h3>
+<ul id="cart"></ul>
+
+<button onclick="sendOrder()">Оформити замовлення</button>
+
+<script>
+let cart = [];
+
+function addToCart(name, price) {
+  cart.push({name, price});
+  renderCart();
+}
+
+function renderCart() {
+  let list = document.getElementById("cart");
+  list.innerHTML = "";
+  cart.forEach(item => {
+    let li = document.createElement("li");
+    li.innerText = item.name + " - " + item.price + " грн";
+    list.appendChild(li);
+  });
+}
+
+function sendOrder() {
+  let tg = window.Telegram.WebApp;
+
+  tg.sendData(JSON.stringify(cart));
+  tg.close();
+}
+</script>
+
+</body>
+</html>
